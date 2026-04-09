@@ -1,0 +1,278 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,600&family=Jost:wght@200;300;400;500;600&family=Amiri:ital,wght@0,400;0,700;1,400&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── CSS custom properties ──────────────────────── */
+:root {
+  --font-cormorant: 'Cormorant Garamond', Georgia, serif;
+  --font-jost:      'Jost', system-ui, sans-serif;
+  --font-amiri:     'Amiri', Georgia, serif;
+
+  --gold:       #C4903A;
+  --gold-light: #D4A843;
+  --gold-pale:  #F0D898;
+  --sand:       #E8D5A3;
+  --muted:      #C9A96E;
+  --brown:      #1A0E02;
+  --brown-mid:  #210F03;
+  --brown-warm: #3D2010;
+}
+
+/* ── Base reset & scroll ────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background-color: var(--brown);
+  color: var(--sand);
+  font-family: var(--font-jost);
+  overflow-x: hidden;
+  cursor: none;
+}
+
+@media (pointer: coarse) { body { cursor: auto; } }
+
+::selection { background: rgba(196,144,58,0.35); color: var(--gold-pale); }
+
+/* ── Scrollbar ──────────────────────────────────── */
+::-webkit-scrollbar              { width: 4px; }
+::-webkit-scrollbar-track        { background: var(--brown); }
+::-webkit-scrollbar-thumb        { background: var(--gold); border-radius: 2px; }
+
+/* ── Custom cursor ──────────────────────────────── */
+.cursor-dot,
+.cursor-ring {
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: transform 0.1s ease;
+  will-change: left, top;
+}
+.cursor-dot  { width: 8px; height: 8px; background: var(--gold); border-radius: 50%; }
+.cursor-ring {
+  z-index: 9998;
+  width: 36px; height: 36px;
+  border: 1.5px solid rgba(196,144,58,0.5);
+  border-radius: 50%;
+  transition: all 0.18s ease;
+}
+
+/* ── Shimmer text ───────────────────────────────── */
+.text-shimmer {
+  background: linear-gradient(
+    90deg,
+    var(--gold-pale) 0%,
+    var(--gold) 25%,
+    var(--gold-light) 50%,
+    var(--gold) 75%,
+    var(--gold-pale) 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 3s linear infinite;
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
+}
+
+/* ── Scroll reveal ──────────────────────────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(36px);
+  transition: opacity 0.85s ease, transform 0.85s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Geometric corner brackets ──────────────────── */
+.geo-border { position: relative; }
+.geo-border::before,
+.geo-border::after {
+  content: '';
+  position: absolute;
+  width: 38px; height: 38px;
+  border-color: var(--gold);
+  border-style: solid;
+  opacity: 0.55;
+}
+.geo-border::before { top: -8px; left: -8px; border-width: 2px 0 0 2px; }
+.geo-border::after  { bottom: -8px; right: -8px; border-width: 0 2px 2px 0; }
+
+/* ── Glass card ─────────────────────────────────── */
+.glass-card {
+  background: rgba(61,32,16,0.28);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(196,144,58,0.18);
+  transition: border-color 0.3s ease, transform 0.3s ease;
+}
+.glass-card:hover {
+  border-color: rgba(196,144,58,0.48);
+  transform: translateY(-5px);
+}
+
+/* ── Gold button ────────────────────────────────── */
+.btn-gold {
+  position: relative;
+  background: linear-gradient(135deg, var(--gold), var(--gold-light) 50%, var(--gold));
+  background-size: 200% 100%;
+  color: var(--brown);
+  font-family: var(--font-jost);
+  font-weight: 500;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: background-position 0.4s ease, box-shadow 0.3s ease, transform 0.2s ease;
+}
+.btn-gold:hover {
+  background-position: 100% 0;
+  box-shadow: 0 0 36px rgba(196,144,58,0.48);
+  transform: translateY(-2px);
+}
+.btn-gold:active { transform: translateY(0); }
+.btn-gold:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* ── Ghost button ───────────────────────────────── */
+.btn-ghost {
+  background: transparent;
+  border: 1px solid rgba(196,144,58,0.45);
+  color: var(--gold-pale);
+  font-family: var(--font-jost);
+  font-weight: 300;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+.btn-ghost:hover {
+  border-color: var(--gold);
+  background: rgba(196,144,58,0.1);
+  box-shadow: 0 0 18px rgba(196,144,58,0.18);
+}
+
+/* ── Desert form inputs ─────────────────────────── */
+.desert-input {
+  width: 100%;
+  background: rgba(26,14,2,0.65);
+  border: 1px solid rgba(196,144,58,0.22);
+  color: var(--sand);
+  font-family: var(--font-jost);
+  font-size: 13px;
+  padding: 12px 16px;
+  border-radius: 2px;
+  outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.desert-input::placeholder { color: rgba(232,213,163,0.3); }
+.desert-input:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(196,144,58,0.1), 0 0 18px rgba(196,144,58,0.08);
+}
+.desert-input:hover:not(:focus) { border-color: rgba(196,144,58,0.4); }
+
+/* ── Ornament divider ───────────────────────────── */
+.ornament {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  justify-content: center;
+}
+.ornament::before,
+.ornament::after {
+  content: '';
+  height: 1px;
+  width: 60px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+
+/* ── HR desert ──────────────────────────────────── */
+.hr-desert {
+  border: none;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  opacity: 0.32;
+  margin: 32px 0;
+}
+
+/* ── Nav link ───────────────────────────────────── */
+.nav-link {
+  position: relative;
+  font-family: var(--font-jost);
+  font-weight: 300;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(232,213,163,0.65);
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: var(--gold);
+  transition: width 0.3s ease;
+}
+.nav-link:hover               { color: var(--gold-pale); }
+.nav-link:hover::after        { width: 100%; }
+
+/* ── Sand particles keyframe ────────────────────── */
+@keyframes particleFall {
+  0%   { opacity: 0; transform: translateY(-10px); }
+  10%  { opacity: var(--op, 0.6); }
+  90%  { opacity: var(--op, 0.5); }
+  100% { opacity: 0; transform: translateY(650px) translateX(var(--drift, 30px)); }
+}
+
+/* ── Scan line ──────────────────────────────────── */
+@keyframes scanLine {
+  0%   { top: -2px; }
+  100% { top: 100%; }
+}
+
+/* ── Pattern overlay ────────────────────────────── */
+.pattern-overlay {
+  background-image: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 20px,
+    rgba(196,144,58,0.03) 20px,
+    rgba(196,144,58,0.03) 21px
+  );
+}
+
+/* ── Stars bg ───────────────────────────────────── */
+.stars-bg {
+  background-image:
+    radial-gradient(1px 1px at 12% 22%, rgba(240,216,152,0.8) 0%, transparent 100%),
+    radial-gradient(1px 1px at 35% 68%, rgba(240,216,152,0.5) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 62% 14%, rgba(240,216,152,0.7) 0%, transparent 100%),
+    radial-gradient(1px 1px at 82% 48%, rgba(240,216,152,0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 91% 78%, rgba(240,216,152,0.6) 0%, transparent 100%),
+    radial-gradient(1px 1px at 48% 88%, rgba(240,216,152,0.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 22% 44%, rgba(240,216,152,0.4) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 72% 32%, rgba(240,216,152,0.8) 0%, transparent 100%);
+}
+
+/* ── Mobile menu open lock ──────────────────────── */
+body.menu-open { overflow: hidden; }
